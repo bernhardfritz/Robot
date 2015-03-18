@@ -21,41 +21,42 @@ public class MyOnClickListener implements OnClickListener {
 			else
 				robot.disconnect();
 			break;
-		case R.id.button1: // buttonMinus
+		case R.id.buttonMinus: // buttonMinus
 			robot.comWrite(new byte[] { '-', '\r', '\n' });
 			break;
-		case R.id.button2: // buttonW
+		case R.id.buttonW: // buttonW
 			robot.comWrite(new byte[] { 'w', '\r', '\n' });
 			break;
-		case R.id.button3: // buttonPlus
+		case R.id.buttonPlus: // buttonPlus
 			robot.comWrite(new byte[] { '+', '\r', '\n' });
 			break;
-		case R.id.button4: // buttonA
+		case R.id.buttonA: // buttonA
 			robot.comWrite(new byte[] { 'a', '\r', '\n' });
 			break;
-		case R.id.button5: // buttonS
+		case R.id.buttonS: // buttonS
 			robot.comWrite(new byte[] { 's', '\r', '\n' });
 			break;
-		case R.id.button6: // buttonD
+		case R.id.buttonD: // buttonD
 			robot.comWrite(new byte[] { 'd', '\r', '\n' });
 			break;
-		case R.id.button7: // buttonDown
-			// robot.robotSetBar(value);
+		case R.id.buttonDown: // buttonDown
+			//robot.robotSetBar(value);
 			break;
-		case R.id.button8: // buttonX
+		case R.id.buttonX: // buttonX
 			robot.comWrite(new byte[] { 'x', '\r', '\n' });
 			break;
-		case R.id.button9: // buttonUp
+		case R.id.buttonUp: // buttonUp
 			// robot.robotSetBar(value);
 			break;
-		case R.id.button10: // buttonLedOn
-			// robot.robotSetLeds(red, blue);
+		case R.id.buttonLedOn: // buttonLedOn
+			robot.robotDriveSquare((byte) 50);
 			break;
-		case R.id.button11: // buttonReadSensor
+		case R.id.buttonReadSensor: // buttonReadSensor
 			// robot.comReadWrite(data);
+			robot.robotDrive((byte)50);
 			break;
-		case R.id.button12: // buttonLedOff
-			// robot.robotSetLeds(red, blue);
+		case R.id.buttonLedOff: // buttonLedOff
+			robot.robotTurn((byte) 90);
 			break;
 		}
 	}

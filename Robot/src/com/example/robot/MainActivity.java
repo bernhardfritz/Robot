@@ -40,18 +40,18 @@ public class MainActivity extends Activity {
 		myOnClickListener = new MyOnClickListener(robot);
 
 		toggleButtonConnect = (ToggleButton) findViewById(R.id.toggleButton1);
-		buttonMinus = (Button) findViewById(R.id.button1);
-		buttonW = (Button) findViewById(R.id.button2);
-		buttonPlus = (Button) findViewById(R.id.button3);
-		buttonA = (Button) findViewById(R.id.button4);
-		buttonS = (Button) findViewById(R.id.button5);
-		buttonD = (Button) findViewById(R.id.button6);
-		buttonDown = (Button) findViewById(R.id.button7);
-		buttonX = (Button) findViewById(R.id.button8);
-		buttonUp = (Button) findViewById(R.id.button9);
-		buttonLedOn = (Button) findViewById(R.id.button10);
-		buttonReadSensor = (Button) findViewById(R.id.button11);
-		buttonLedOff = (Button) findViewById(R.id.button12);
+		buttonMinus = (Button) findViewById(R.id.buttonMinus);
+		buttonW = (Button) findViewById(R.id.buttonW);
+		buttonPlus = (Button) findViewById(R.id.buttonPlus);
+		buttonA = (Button) findViewById(R.id.buttonA);
+		buttonS = (Button) findViewById(R.id.buttonS);
+		buttonD = (Button) findViewById(R.id.buttonD);
+		buttonDown = (Button) findViewById(R.id.buttonDown);
+		buttonX = (Button) findViewById(R.id.buttonX);
+		buttonUp = (Button) findViewById(R.id.buttonUp);
+		buttonLedOn = (Button) findViewById(R.id.buttonLedOn);
+		buttonReadSensor = (Button) findViewById(R.id.buttonReadSensor);
+		buttonLedOff = (Button) findViewById(R.id.buttonLedOff);
 
 		toggleButtonConnect.setOnClickListener(myOnClickListener);
 		buttonMinus.setOnClickListener(myOnClickListener);
