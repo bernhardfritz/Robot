@@ -25,9 +25,10 @@ public class MovementService extends Thread {
 			try {
 				Thread t = queue.take();
 				t.start();
-				t.wait();
+				t.join();
 			} catch (InterruptedException e) {
 				queue.clear();
+				run();
 			}
 		}
 	}

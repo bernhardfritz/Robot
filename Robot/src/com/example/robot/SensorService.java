@@ -32,7 +32,7 @@ public class SensorService extends Thread {
 		while (true) {
 			update();
 			try {
-				Thread.sleep(100);
+				Thread.sleep(robot.getInterval());
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
