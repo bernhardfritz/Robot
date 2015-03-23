@@ -53,7 +53,8 @@ public class MyOnClickListener implements OnClickListener {
 			break;
 		case R.id.buttonReadSensor: // buttonReadSensor
 			// robot.comReadWrite(data);
-			robot.robotDrive((byte)50);
+//			robot.robotDrive((byte)50);
+			MainActivity.sensorLog(robot.comReadWrite(new byte[] { 'q', '\r', '\n' }));
 			break;
 		case R.id.buttonLedOff: // buttonLedOff
 			robot.robotTurn((byte) 90);

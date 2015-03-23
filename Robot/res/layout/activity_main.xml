@@ -131,4 +131,11 @@
         android:layout_alignLeft="@+id/buttonLedOn"
         android:layout_below="@+id/buttonLedOn" />
 
+    <TextView
+        android:id="@+id/TextView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

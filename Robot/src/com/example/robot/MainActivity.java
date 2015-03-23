@@ -29,6 +29,7 @@ public class MainActivity extends Activity {
 	private Button buttonReadSensor;
 	private Button buttonLedOff;
 	private static TextView textLog;
+	private static TextView sensorLog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +69,7 @@ public class MainActivity extends Activity {
 		buttonLedOff.setOnClickListener(myOnClickListener);
 
 		textLog = (TextView) findViewById(R.id.textView1);
+		sensorLog = (TextView) findViewById(R.id.TextView2);
 	}
 
 	@Override
@@ -91,5 +93,9 @@ public class MainActivity extends Activity {
 
 	public static void log(String s) {
 		textLog.append(s);
+	}
+	
+	public static void sensorLog(String s) {
+		sensorLog.append(s);
 	}
 }
