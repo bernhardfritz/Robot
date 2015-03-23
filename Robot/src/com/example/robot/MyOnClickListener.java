@@ -41,6 +41,7 @@ public class MyOnClickListener implements OnClickListener {
 			break;
 		case R.id.buttonDown: // buttonDown
 			//robot.robotSetBar(value);
+			robot.robotSetVelocity((byte)(Byte.MAX_VALUE/8), (byte)(Byte.MIN_VALUE/8));
 			break;
 		case R.id.buttonX: // buttonX
 			robot.comWrite(new byte[] { 'x', '\r', '\n' });

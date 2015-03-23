@@ -11,7 +11,7 @@ public class Robot {
 
 	public void connect() {
 		if (com.begin(FTDriver.BAUD9600))
-			MainActivity.log("connected/n");
+			MainActivity.log("connected\n");
 		else
 			MainActivity.log("could not connect\n");
 	}

@@ -96,6 +96,7 @@ public class MainActivity extends Activity {
 	}
 	
 	public static void sensorLog(String s) {
+		sensorLog.setText("");
 		sensorLog.append(s);
 	}
 }
