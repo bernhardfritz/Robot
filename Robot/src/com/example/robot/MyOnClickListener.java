@@ -25,7 +25,7 @@ public class MyOnClickListener implements OnClickListener {
 			robot.comWrite(new byte[] { '-', '\r', '\n' });
 			break;
 		case R.id.buttonW: // buttonW
-			//robot.comWrite(new byte[] { 'w', '\r', '\n' });
+			// robot.comWrite(new byte[] { 'w', '\r', '\n' });
 			robot.robotDrive(100f);
 			break;
 		case R.id.buttonPlus: // buttonPlus
@@ -41,7 +41,7 @@ public class MyOnClickListener implements OnClickListener {
 			robot.comWrite(new byte[] { 'd', '\r', '\n' });
 			break;
 		case R.id.buttonDown: // buttonDown
-			//robot.robotSetBar(value);
+			// robot.robotSetBar(value);
 			robot.robotTurn(180f);
 			break;
 		case R.id.buttonX: // buttonX
@@ -49,22 +49,23 @@ public class MyOnClickListener implements OnClickListener {
 			break;
 		case R.id.buttonUp: // buttonUp
 			// robot.robotSetBar(value);
-			
-			for(int i=0; i<4; i++) {
+
+			for (int i = 0; i < 4; i++) {
 				robot.robotDrive(100f);
 				robot.robotTurn(90f);
 			}
-			
+
 			break;
 		case R.id.buttonLedOn: // buttonLedOn
-			//robot.robotDriveSquare(50);
+			// robot.robotDriveSquare(50);
 			robot.robotTurn(90f);
 			robot.robotTurn(90f);
 			break;
 		case R.id.buttonReadSensor: // buttonReadSensor
 			// robot.comReadWrite(data);
-//			robot.robotDrive((byte)50);
-			MainActivity.sensorLog(robot.comReadWrite(new byte[] { 'q', '\r', '\n' }));
+			// robot.robotDrive((byte)50);
+			MainActivity.sensorLog(robot.comReadWrite(new byte[] { 'q', '\r',
+					'\n' }));
 			break;
 		case R.id.buttonLedOff: // buttonLedOff
 			robot.robotGoTo(100, 0);
@@ -73,10 +74,11 @@ public class MyOnClickListener implements OnClickListener {
 			robot.robotGoTo(0, 0);
 			break;
 		case R.id.button1:
-			/*for(int i:robot.getSensorService().getValues()) {
-				MainActivity.sensorLog(""+i+" ");
-			}*/
-			
+			/*
+			 * for(int i:robot.getSensorService().getValues()) {
+			 * MainActivity.sensorLog(""+i+" "); }
+			 */
+
 		}
 	}
 }

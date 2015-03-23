@@ -9,7 +9,7 @@ public class PropertiesManager {
 
 	private static final String filename = "config.properties";
 	private Properties prop;
-	
+
 	private PropertiesManager() {
 		init();
 	}
@@ -21,7 +21,7 @@ public class PropertiesManager {
 	public static PropertiesManager getInstance() {
 		return SingletonHelper.INSTANCE;
 	}
-	
+
 	private void init() {
 		InputStream input = null;
 		try {
@@ -39,7 +39,7 @@ public class PropertiesManager {
 			}
 		}
 	}
-	
+
 	public String getProperty(String name) {
 		return prop.getProperty(name);
 	}

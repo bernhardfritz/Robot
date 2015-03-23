@@ -1,6 +1,6 @@
 package com.example.robot;
 
-public class Translation implements Runnable {
+public class Translation implements Movement {
 	private AdvancedRobot robot;
 	private float relative_distance_cm;
 	private long t;
@@ -8,8 +8,7 @@ public class Translation implements Runnable {
 	public Translation(AdvancedRobot robot, float relative_distance_cm) {
 		this.robot = robot;
 		this.relative_distance_cm = relative_distance_cm;
-		t = Math.round(relative_distance_cm / robot.getV())*1000;
-		System.out.println("fahre "+relative_distance_cm+" cm");
+		t = Math.round(relative_distance_cm / robot.getV()) * 1000;
 	}
 
 	public float getRemainingDistance() {
@@ -41,14 +40,15 @@ public class Translation implements Runnable {
 	}
 
 	@Override
-	public void run() {
-		System.out.println("translation gestartet" + this);
+	public void move() {
 		if (relative_distance_cm < 0)
 			robot.comWrite(new byte[] { 'x', '\r', '\n' });
 		else
 			robot.comWrite(new byte[] { 'w', '\r', '\n' });
 		try {
 			while (t > 0) {
+				if (robot.obstacleDetected())
+					t = 0;
 				sleep();
 			}
 		} catch (InterruptedException e) {

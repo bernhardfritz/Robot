@@ -59,13 +59,13 @@ public class Robot {
 	}
 
 	public void robotDrive(byte distance_cm) {
-		float k = 100f/72f;
-		comReadWrite(new byte[] { 'k', (byte)(k*distance_cm), '\r', '\n' });
+		float k = 100f / 72f;
+		comReadWrite(new byte[] { 'k', (byte) (k * distance_cm), '\r', '\n' });
 	}
 
 	public void robotTurn(byte degree) {
-		float k = 90f/78f;
-		comReadWrite(new byte[] { 'l',(byte)(k*degree), '\r', '\n' });
+		float k = 90f / 78f;
+		comReadWrite(new byte[] { 'l', (byte) (k * degree), '\r', '\n' });
 	}
 
 	public void robotSetVelocity(byte left, byte right) {
@@ -75,9 +75,9 @@ public class Robot {
 	public void robotSetBar(byte value) {
 		comReadWrite(new byte[] { 'o', value, '\r', '\n' });
 	}
-	
+
 	public void robotDriveSquare(byte distance_cm) {
-		for(int i=0; i<4; i++) {
+		for (int i = 0; i < 4; i++) {
 			robotDrive(distance_cm);
 			try {
 				Thread.sleep(6000);

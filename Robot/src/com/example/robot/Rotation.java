@@ -1,6 +1,6 @@
 package com.example.robot;
 
-public class Rotation implements Runnable {
+public class Rotation implements Movement {
 	private AdvancedRobot robot;
 	private float absoluteDegree;
 	private float relativeDegree;
@@ -11,8 +11,7 @@ public class Rotation implements Runnable {
 		this.absoluteDegree = absoluteDegree;
 		this.relativeDegree = robot.normalizeDegree(absoluteDegree)
 				- robot.getDegree();
-		this.t = Math.round(Math.floor(relativeDegree) / robot.getW())*1000;
-		System.out.println("drehe "+absoluteDegree+" grad");
+		this.t = Math.round(Math.floor(relativeDegree) / robot.getW()) * 1000;
 	}
 
 	public float getRemainingDegree() {
@@ -36,12 +35,13 @@ public class Rotation implements Runnable {
 	}
 
 	@Override
-	public void run() {
-		System.out.println("drehung gestartet" + this);
+	public void move() {
 		if (relativeDegree < 0)
-			robot.robotSetVelocity((byte) (Byte.MAX_VALUE/8), (byte) (Byte.MIN_VALUE/8));
+			robot.robotSetVelocity((byte) (Byte.MAX_VALUE / 8),
+					(byte) (Byte.MIN_VALUE / 8));
 		else
-			robot.robotSetVelocity((byte) (Byte.MIN_VALUE/8), (byte) (Byte.MAX_VALUE/8));
+			robot.robotSetVelocity((byte) (Byte.MIN_VALUE / 8),
+					(byte) (Byte.MAX_VALUE / 8));
 		try {
 			while (t > 0) {
 				sleep();

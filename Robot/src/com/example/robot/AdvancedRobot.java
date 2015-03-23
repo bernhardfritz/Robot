@@ -1,8 +1,11 @@
 package com.example.robot;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import jp.ksksue.driver.serial.FTDriver;
 
-public class AdvancedRobot extends Robot {
+public class AdvancedRobot extends Robot implements Observer{
 
 	private MovementService mserv;
 	private SensorService sserv;
@@ -10,12 +13,14 @@ public class AdvancedRobot extends Robot {
 	private float x;
 	private float y;
 	private float degree;
+	private boolean obstacle;
 	
 	public AdvancedRobot(FTDriver com) {
 		super(com);
 		this.x=0;
 		this.y=0;
 		this.degree=0;
+		this.obstacle=false;
 		this.mserv=new MovementService();
 		this.sserv=new SensorService(this);
 	}
@@ -75,15 +80,23 @@ public class AdvancedRobot extends Robot {
 	
 	public void connect() {
 		super.connect();
-		mserv.start();
-		//sserv.start();
+		Thread movementThread = new Thread(mserv);
+		//Thread sensorThread = new Thread(sserv);
+		movementThread.start();
+		//sensorThread.start();
 	}
 	
 	public void disconnect() {
-		robotHold();
-		mserv.stop();
-		//sserv.stop();
+		mserv.destroy();
+		sserv.destroy();
 		super.disconnect();
+	}
+	
+	public boolean obstacleDetected() {
+		if (obstacle) {
+			obstacle=false;
+			return true;
+		} else return false; 
 	}
 
 	public void robotDrive(float distance_cm) {
@@ -104,7 +117,11 @@ public class AdvancedRobot extends Robot {
 	}
 	
 	public void robotHold() {
-		mserv.interrupt();
 		comWrite(new byte[] { 's', '\r', '\n' });
+	}
+
+	@Override
+	public void update(Observable observable, Object data) {
+		obstacle=true;
 	}
 }

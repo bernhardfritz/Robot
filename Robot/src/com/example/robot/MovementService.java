@@ -1,35 +1,32 @@
 package com.example.robot;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.LinkedList;
+import java.util.Queue;
 
-public class MovementService extends Thread {
-	private BlockingQueue<Thread> queue;
+public class MovementService implements Runnable {
+	private Queue<Movement> queue;
+	private boolean active;
 
 	public MovementService() {
 		super();
-		queue = new LinkedBlockingQueue<Thread>();
+		queue = new LinkedList<Movement>();
 	}
 
-	public void addMovement(Runnable r) {
-		try {
-			queue.put(new Thread(r));
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+	public void addMovement(Movement m) {
+		queue.add(m);
+	}
+	
+	public void destroy() {
+		active=false;
 	}
 
 	@Override
 	public void run() {
-		while (true) {
-			try {
-				Thread t = queue.take();
-				System.out.println("starte naechsten thread");
-				t.start();
-				t.join();
-			} catch (InterruptedException e) {
-				queue.clear();
-				run();
+		active=true;
+		while (active) {
+			if(!queue.isEmpty()) {
+				Movement m = (Movement) queue.poll();
+				m.move();
 			}
 		}
 	}
