@@ -12,7 +12,7 @@ import android.widget.ToggleButton;
 
 public class MainActivity extends Activity {
 
-	private Robot robot;
+	private AdvancedRobot robot;
 	private MyOnClickListener myOnClickListener;
 
 	private ToggleButton toggleButtonConnect;
@@ -36,7 +36,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		robot = new Robot(new FTDriver(
+		robot = new AdvancedRobot(new FTDriver(
 				(UsbManager) getSystemService(USB_SERVICE)));
 		myOnClickListener = new MyOnClickListener(robot);
 

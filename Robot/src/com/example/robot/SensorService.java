@@ -19,6 +19,9 @@ public class SensorService extends Thread {
 
 	private void update() {
 		String raw = robot.comReadWrite(new byte[] { 'q', '\r', '\n' });
+		raw=raw.replace("command execution marked", "");
+		raw=raw.replace("sensor: ","");
+		raw=raw.replace("\n", "");
 		String[] arr = raw.split(" ");
 		for (int i = 0; i < 5; i++) {
 			values[i] = (int) Long.parseLong(arr[i].replace("0x", ""), 16);

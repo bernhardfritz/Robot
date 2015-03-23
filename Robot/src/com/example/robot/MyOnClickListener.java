@@ -6,9 +6,9 @@ import android.widget.ToggleButton;
 
 public class MyOnClickListener implements OnClickListener {
 
-	private Robot robot;
+	private AdvancedRobot robot;
 
-	public MyOnClickListener(Robot robot) {
+	public MyOnClickListener(AdvancedRobot robot) {
 		this.robot = robot;
 	}
 
@@ -25,7 +25,8 @@ public class MyOnClickListener implements OnClickListener {
 			robot.comWrite(new byte[] { '-', '\r', '\n' });
 			break;
 		case R.id.buttonW: // buttonW
-			robot.comWrite(new byte[] { 'w', '\r', '\n' });
+			//robot.comWrite(new byte[] { 'w', '\r', '\n' });
+			robot.robotDrive(100f);
 			break;
 		case R.id.buttonPlus: // buttonPlus
 			robot.comWrite(new byte[] { '+', '\r', '\n' });
@@ -41,16 +42,24 @@ public class MyOnClickListener implements OnClickListener {
 			break;
 		case R.id.buttonDown: // buttonDown
 			//robot.robotSetBar(value);
-			robot.robotSetVelocity((byte)(Byte.MAX_VALUE/8), (byte)(Byte.MIN_VALUE/8));
+			robot.robotTurn(180f);
 			break;
 		case R.id.buttonX: // buttonX
 			robot.comWrite(new byte[] { 'x', '\r', '\n' });
 			break;
 		case R.id.buttonUp: // buttonUp
 			// robot.robotSetBar(value);
+			
+			for(int i=0; i<4; i++) {
+				robot.robotDrive(100f);
+				robot.robotTurn(90f);
+			}
+			
 			break;
 		case R.id.buttonLedOn: // buttonLedOn
-			robot.robotDriveSquare((byte) 50);
+			//robot.robotDriveSquare(50);
+			robot.robotTurn(90f);
+			robot.robotTurn(90f);
 			break;
 		case R.id.buttonReadSensor: // buttonReadSensor
 			// robot.comReadWrite(data);
@@ -58,8 +67,16 @@ public class MyOnClickListener implements OnClickListener {
 			MainActivity.sensorLog(robot.comReadWrite(new byte[] { 'q', '\r', '\n' }));
 			break;
 		case R.id.buttonLedOff: // buttonLedOff
-			robot.robotTurn((byte) 90);
+			robot.robotGoTo(100, 0);
+			robot.robotGoTo(100, 100);
+			robot.robotGoTo(0, 100);
+			robot.robotGoTo(0, 0);
 			break;
+		case R.id.button1:
+			/*for(int i:robot.getSensorService().getValues()) {
+				MainActivity.sensorLog(""+i+" ");
+			}*/
+			
 		}
 	}
 }

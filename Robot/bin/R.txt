@@ -3,7 +3,9 @@ int dimen activity_vertical_margin 0x7f060001
 int drawable ic_launcher 0x7f020000
 int id RelativeLayout1 0x7f090000
 int id Space1 0x7f090001
-int id action_settings 0x7f090010
+int id TextView2 0x7f090010
+int id action_settings 0x7f090012
+int id button1 0x7f090011
 int id buttonA 0x7f090006
 int id buttonD 0x7f090005
 int id buttonDown 0x7f09000a

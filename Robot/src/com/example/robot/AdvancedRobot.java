@@ -21,11 +21,13 @@ public class AdvancedRobot extends Robot {
 	}
 	
 	public float getV() {
-		return Float.parseFloat(PropertiesManager.getInstance().getProperty("v"));
+		//return Float.parseFloat(PropertiesManager.getInstance().getProperty("v"));
+		return 28.25f;
 	}
 	
 	public float getW() {
-		return Float.parseFloat(PropertiesManager.getInstance().getProperty("w"));
+		//return Float.parseFloat(PropertiesManager.getInstance().getProperty("w"));
+		return 87.8f;
 	}
 	
 	public float getX() {
@@ -59,7 +61,8 @@ public class AdvancedRobot extends Robot {
 	}
 	
 	public long getInterval() {
-		return Long.parseLong(PropertiesManager.getInstance().getProperty("interval"));
+		//return Long.parseLong(PropertiesManager.getInstance().getProperty("interval"));
+		return 100L;
 	}
 	
 	public MovementService getMovementService() {
@@ -73,13 +76,13 @@ public class AdvancedRobot extends Robot {
 	public void connect() {
 		super.connect();
 		mserv.start();
-		sserv.start();
+		//sserv.start();
 	}
 	
 	public void disconnect() {
 		robotHold();
 		mserv.stop();
-		sserv.stop();
+		//sserv.stop();
 		super.disconnect();
 	}
 
@@ -102,5 +105,6 @@ public class AdvancedRobot extends Robot {
 	
 	public void robotHold() {
 		mserv.interrupt();
+		comWrite(new byte[] { 's', '\r', '\n' });
 	}
 }

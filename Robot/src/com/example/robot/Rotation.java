@@ -11,7 +11,8 @@ public class Rotation implements Runnable {
 		this.absoluteDegree = absoluteDegree;
 		this.relativeDegree = robot.normalizeDegree(absoluteDegree)
 				- robot.getDegree();
-		this.t = Math.round(Math.floor(relativeDegree) / (robot.getW() / 1000));
+		this.t = Math.round(Math.floor(relativeDegree) / robot.getW())*1000;
+		System.out.println("drehe "+absoluteDegree+" grad");
 	}
 
 	public float getRemainingDegree() {
@@ -36,17 +37,18 @@ public class Rotation implements Runnable {
 
 	@Override
 	public void run() {
+		System.out.println("drehung gestartet" + this);
 		if (relativeDegree < 0)
-			robot.robotSetVelocity(Byte.MAX_VALUE, Byte.MIN_VALUE);
+			robot.robotSetVelocity((byte) (Byte.MAX_VALUE/8), (byte) (Byte.MIN_VALUE/8));
 		else
-			robot.robotSetVelocity(Byte.MIN_VALUE, Byte.MAX_VALUE);
+			robot.robotSetVelocity((byte) (Byte.MIN_VALUE/8), (byte) (Byte.MAX_VALUE/8));
 		try {
 			while (t > 0) {
 				sleep();
 			}
 		} catch (InterruptedException e) {
-			robot.comWrite(new byte[] { 'x', '\r', '\n' });
+			e.printStackTrace();
 		}
-		robot.comWrite(new byte[] { 'x', '\r', '\n' });
+		robot.comWrite(new byte[] { 's', '\r', '\n' });
 	}
 }

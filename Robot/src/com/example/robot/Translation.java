@@ -8,7 +8,8 @@ public class Translation implements Runnable {
 	public Translation(AdvancedRobot robot, float relative_distance_cm) {
 		this.robot = robot;
 		this.relative_distance_cm = relative_distance_cm;
-		t = Math.round(relative_distance_cm / robot.getV());
+		t = Math.round(relative_distance_cm / robot.getV())*1000;
+		System.out.println("fahre "+relative_distance_cm+" cm");
 	}
 
 	public float getRemainingDistance() {
@@ -41,8 +42,9 @@ public class Translation implements Runnable {
 
 	@Override
 	public void run() {
+		System.out.println("translation gestartet" + this);
 		if (relative_distance_cm < 0)
-			robot.comWrite(new byte[] { 's', '\r', '\n' });
+			robot.comWrite(new byte[] { 'x', '\r', '\n' });
 		else
 			robot.comWrite(new byte[] { 'w', '\r', '\n' });
 		try {
@@ -50,8 +52,8 @@ public class Translation implements Runnable {
 				sleep();
 			}
 		} catch (InterruptedException e) {
-			robot.comWrite(new byte[] { 'x', '\r', '\n' });
+			e.printStackTrace();
 		}
-		robot.comWrite(new byte[] { 'x', '\r', '\n' });
+		robot.comWrite(new byte[] { 's', '\r', '\n' });
 	}
 }

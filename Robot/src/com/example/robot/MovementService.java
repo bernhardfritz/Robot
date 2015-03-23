@@ -24,6 +24,7 @@ public class MovementService extends Thread {
 		while (true) {
 			try {
 				Thread t = queue.take();
+				System.out.println("starte naechsten thread");
 				t.start();
 				t.join();
 			} catch (InterruptedException e) {
