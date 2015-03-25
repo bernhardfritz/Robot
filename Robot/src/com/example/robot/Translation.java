@@ -19,10 +19,10 @@ public class Translation implements Movement {
 	}
 
 	private void sleep() throws InterruptedException {
-		if (t>=robot.getInterval()) {
+		if (t >= robot.getInterval()) {
 			Thread.sleep(robot.getInterval());
 			updateXY(robot.getInterval());
-			t-=robot.getInterval();
+			t -= robot.getInterval();
 		} else {
 			Thread.sleep(t);
 			updateXY(t);

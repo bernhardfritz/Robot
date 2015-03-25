@@ -13,6 +13,7 @@ public class Robot implements Observer {
 	private double angle;
 	private double v;
 	private double w;
+	private long interval;
 	private boolean obstacle;
 
 	private MovementService mserv;
@@ -25,6 +26,7 @@ public class Robot implements Observer {
 		this.angle = 0.0;
 		this.v = 0.02825; // cm/ms
 		this.w = 0.001532399; // rad/ms
+		this.interval = 100; // ms
 		this.obstacle = false;
 		this.mserv = new MovementService();
 		this.sserv = new SensorService(this);
@@ -92,7 +94,7 @@ public class Robot implements Observer {
 	public void robotSetBar(byte value) {
 		comReadWrite(new byte[] { 'o', value, '\r', '\n' });
 	}
-	
+
 	public void robotDrive(double distance) {
 		mserv.addMovement(new Translation(this, distance));
 	}
@@ -109,7 +111,7 @@ public class Robot implements Observer {
 	public void robotHold() {
 		comWrite(new byte[] { 's', '\r', '\n' });
 	}
-	
+
 	public double getV() {
 		return v;
 	}
@@ -121,7 +123,7 @@ public class Robot implements Observer {
 	public double getX() {
 		return this.x;
 	}
-	
+
 	public void setX(double x) {
 		this.x = x;
 	}
@@ -129,7 +131,7 @@ public class Robot implements Observer {
 	public double getY() {
 		return this.y;
 	}
-	
+
 	public void setY(double y) {
 		this.y = y;
 	}
@@ -150,9 +152,7 @@ public class Robot implements Observer {
 	}
 
 	public long getInterval() {
-		// return
-		// Long.parseLong(PropertiesManager.getInstance().getProperty("interval"));
-		return 100;
+		return interval;
 	}
 
 	public MovementService getMovementService() {
@@ -170,7 +170,7 @@ public class Robot implements Observer {
 		} else
 			return false;
 	}
-	
+
 	@Override
 	public void update(Observable observable, Object data) {
 		obstacle = true;

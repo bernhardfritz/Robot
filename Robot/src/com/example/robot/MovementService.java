@@ -15,16 +15,16 @@ public class MovementService implements Runnable {
 	public void addMovement(Movement m) {
 		queue.add(m);
 	}
-	
+
 	public void destroy() {
-		active=false;
+		active = false;
 	}
 
 	@Override
 	public void run() {
-		active=true;
+		active = true;
 		while (active) {
-			if(!queue.isEmpty()) {
+			if (!queue.isEmpty()) {
 				Movement m = (Movement) queue.poll();
 				try {
 					m.move();

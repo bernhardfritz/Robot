@@ -42,24 +42,24 @@ public class MyOnClickListener implements OnClickListener {
 			break;
 		case R.id.buttonDown: // buttonDown
 			// robot.robotSetBar(value);
-			robot.robotTurn(Math.PI/2);
+			robot.robotTurn(Math.PI / 2);
 			robot.robotTurn(Math.PI);
-			robot.robotTurn(3*Math.PI/2);
-			robot.robotTurn(2*Math.PI);
+			robot.robotTurn(3 * Math.PI / 2);
+			robot.robotTurn(2 * Math.PI);
 			break;
 		case R.id.buttonX: // buttonX
 			robot.comWrite(new byte[] { 'x', '\r', '\n' });
 			break;
 		case R.id.buttonUp: // buttonUp
 			// robot.robotSetBar(value);
-			for(int i=0; i<4; i++) {
-				robot.robotTurn(Math.PI/2);
+			for (int i = 0; i < 4; i++) {
+				robot.robotTurn(Math.PI / 2);
 			}
 			break;
 		case R.id.buttonLedOn: // buttonLedOn
-			for(int i=0; i<4; i++) {
+			for (int i = 0; i < 4; i++) {
 				robot.robotDrive(30.0);
-				robot.robotTurn(Math.PI/2);
+				robot.robotTurn(Math.PI / 2);
 			}
 			break;
 		case R.id.buttonReadSensor: // buttonReadSensor
@@ -75,9 +75,9 @@ public class MyOnClickListener implements OnClickListener {
 			robot.robotGoTo(0, 0);
 			break;
 		case R.id.buttonRotate:
-			float degree = (float) Math.random() * 360;
-			System.out.println(degree);
-			robot.robotTurn(degree);
+			double angle = Math.random() * 2 * Math.PI;
+			System.out.println(Math.toDegrees(angle));
+			robot.robotTurn(angle);
 			break;
 		}
 	}

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -98,7 +97,7 @@ public class MainActivity extends Activity {
 	public static void log(String s) {
 		textLog.append(s);
 	}
-	
+
 	public static void sensorLog(String s) {
 		sensorLog.setText("");
 		sensorLog.append(s);

@@ -1,34 +1,36 @@
 package com.example.robot;
 
-public class RelativeRotation implements Movement{
+public class RelativeRotation implements Movement {
 
 	Robot robot;
 	double angle;
 	long t;
-	
+
 	public RelativeRotation(Robot robot, double angle) {
-		this.robot=robot;
-		this.angle=angle;
-		t = Math.round(angle/robot.getW());
+		this.robot = robot;
+		this.angle = angle;
+		if(angle>Math.PI) this.angle-=2*Math.PI;
+		else if(angle<-Math.PI) this.angle+=2*Math.PI;
+		t = Math.round(Math.abs(angle) / robot.getW());
 	}
-	
+
 	public void updateAngle(long interval) {
-		double delta = Math.signum(angle)*robot.getW()*interval;
-		robot.setAngle(robot.getAngle()+delta);
+		double delta = Math.signum(angle) * robot.getW() * interval;
+		robot.setAngle(robot.getAngle() + delta);
 	}
-	
+
 	public void sleep() throws InterruptedException {
-		if(t>=robot.getInterval()) {
+		if (t >= robot.getInterval()) {
 			Thread.sleep(robot.getInterval());
 			updateAngle(robot.getInterval());
-			t-=robot.getInterval();
+			t -= robot.getInterval();
 		} else {
 			Thread.sleep(t);
-			robot.setAngle(robot.getAngle()+angle);
-			t=0;
+			updateAngle(t);
+			t = 0;
 		}
 	}
-	
+
 	@Override
 	public void move() throws InterruptedException {
 		System.out.println("start degree: " + Math.toDegrees(robot.getAngle()));
@@ -38,7 +40,7 @@ public class RelativeRotation implements Movement{
 		else if (angle > 0)
 			robot.robotSetVelocity((byte) (Byte.MIN_VALUE / 8),
 					(byte) (Byte.MAX_VALUE / 8));
-		while(t>0) {
+		while (t > 0) {
 			sleep();
 		}
 		robot.comWrite(new byte[] { 's', '\r', '\n' });
