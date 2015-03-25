@@ -3,12 +3,12 @@ package com.example.robot;
 import java.util.Observable;
 
 public class SensorService extends Observable implements Runnable {
-	private AdvancedRobot robot;
+	private Robot robot;
 	private boolean active;
 	private int[] values;
 	private int threshold = 12; // TODO: find appropriate threshold
 
-	public SensorService(AdvancedRobot robot) {
+	public SensorService(Robot robot) {
 		this.robot = robot;
 		active = true;
 		values = new int[8];

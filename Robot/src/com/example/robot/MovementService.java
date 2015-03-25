@@ -26,7 +26,12 @@ public class MovementService implements Runnable {
 		while (active) {
 			if(!queue.isEmpty()) {
 				Movement m = (Movement) queue.poll();
-				m.move();
+				try {
+					m.move();
+				} catch (InterruptedException e) {
+					queue.clear();
+					e.printStackTrace();
+				}
 			}
 		}
 	}

@@ -1,5 +1,5 @@
 package com.example.robot;
 
 public interface Movement {
-	public void move();
+	public void move() throws InterruptedException;
 }

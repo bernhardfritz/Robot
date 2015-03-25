@@ -7,12 +7,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
 public class MainActivity extends Activity {
 
-	private AdvancedRobot robot;
+	private Robot robot;
 	private MyOnClickListener myOnClickListener;
 
 	private ToggleButton toggleButtonConnect;
@@ -28,6 +29,7 @@ public class MainActivity extends Activity {
 	private Button buttonLedOn;
 	private Button buttonReadSensor;
 	private Button buttonLedOff;
+	private Button buttonRotate;
 	private static TextView textLog;
 	private static TextView sensorLog;
 
@@ -36,7 +38,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		robot = new AdvancedRobot(new FTDriver(
+		robot = new Robot(new FTDriver(
 				(UsbManager) getSystemService(USB_SERVICE)));
 		myOnClickListener = new MyOnClickListener(robot);
 
@@ -53,6 +55,7 @@ public class MainActivity extends Activity {
 		buttonLedOn = (Button) findViewById(R.id.buttonLedOn);
 		buttonReadSensor = (Button) findViewById(R.id.buttonReadSensor);
 		buttonLedOff = (Button) findViewById(R.id.buttonLedOff);
+		buttonRotate = (Button) findViewById(R.id.buttonRotate);
 
 		toggleButtonConnect.setOnClickListener(myOnClickListener);
 		buttonMinus.setOnClickListener(myOnClickListener);
@@ -67,6 +70,7 @@ public class MainActivity extends Activity {
 		buttonLedOn.setOnClickListener(myOnClickListener);
 		buttonReadSensor.setOnClickListener(myOnClickListener);
 		buttonLedOff.setOnClickListener(myOnClickListener);
+		buttonRotate.setOnClickListener(myOnClickListener);
 
 		textLog = (TextView) findViewById(R.id.textView1);
 		sensorLog = (TextView) findViewById(R.id.TextView2);

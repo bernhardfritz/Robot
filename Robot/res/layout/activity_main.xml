@@ -125,13 +125,6 @@
         android:text="LED off" />
 
     <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/buttonLedOn"
-        android:layout_below="@+id/buttonLedOn" />
-
-    <TextView
         android:id="@+id/TextView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -139,11 +132,18 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:id="@+id/button1"
+        android:id="@+id/buttonRotate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/textView1"
-        android:layout_toRightOf="@+id/buttonReadSensor"
-        android:text="Button" />
+        android:layout_alignRight="@+id/buttonLedOff"
+        android:layout_below="@+id/buttonReadSensor"
+        android:text="Rotate" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/buttonLedOn"
+        android:layout_below="@+id/buttonRotate" />
 
 </RelativeLayout>

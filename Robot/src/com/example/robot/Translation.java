@@ -1,49 +1,41 @@
 package com.example.robot;
 
 public class Translation implements Movement {
-	private AdvancedRobot robot;
-	private float relative_distance_cm;
+	private Robot robot;
+	private double distance;
 	private long t;
 
-	public Translation(AdvancedRobot robot, float relative_distance_cm) {
+	public Translation(Robot robot, double distance) {
 		this.robot = robot;
-		this.relative_distance_cm = relative_distance_cm;
-		t = Math.round(relative_distance_cm / robot.getV()) * 1000;
+		this.distance = distance;
+		t = Math.round(distance / robot.getV());
 	}
 
-	public float getRemainingDistance() {
-		return relative_distance_cm;
+	private void updateXY(long interval) {
+		robot.setX(robot.getX() + robot.getV() * interval
+				* Math.cos(robot.getAngle()));
+		robot.setY(robot.getY() + robot.getV() * interval
+				* Math.sin(robot.getAngle()));
 	}
 
 	private void sleep() throws InterruptedException {
-		if (t < robot.getInterval()) {
-			Thread.sleep(t);
-			robot.setX(robot.getX() + robot.getV() * (t / 1000)
-					* (float) Math.sin(robot.getDegree()));
-			robot.setY(robot.getY() + robot.getV() * (t / 1000)
-					* (float) Math.cos(robot.getDegree()));
-			relative_distance_cm = 0;
-			t = 0;
-		} else {
+		if (t>=robot.getInterval()) {
 			Thread.sleep(robot.getInterval());
-			robot.setX(robot.getX() + robot.getV()
-					* (robot.getInterval() / 1000)
-					* (float) Math.sin(robot.getDegree()));
-			robot.setY(robot.getY() + robot.getV()
-					* (robot.getInterval() / 1000)
-					* (float) Math.cos(robot.getDegree()));
-			float delta_distance_cm = Math.signum(relative_distance_cm)
-					* robot.getV() * (robot.getInterval() / 1000);
-			relative_distance_cm -= delta_distance_cm;
-			t -= robot.getInterval();
+			updateXY(robot.getInterval());
+			t-=robot.getInterval();
+		} else {
+			Thread.sleep(t);
+			updateXY(t);
+			t = 0;
 		}
 	}
 
 	@Override
-	public void move() {
-		if (relative_distance_cm < 0)
+	public void move() throws InterruptedException {
+		System.out.println("start x: " + robot.getX() + " y: " + robot.getY());
+		if (distance < 0)
 			robot.comWrite(new byte[] { 'x', '\r', '\n' });
-		else
+		else if (distance > 0)
 			robot.comWrite(new byte[] { 'w', '\r', '\n' });
 		try {
 			while (t > 0) {
@@ -55,5 +47,7 @@ public class Translation implements Movement {
 			e.printStackTrace();
 		}
 		robot.comWrite(new byte[] { 's', '\r', '\n' });
+		Thread.sleep(robot.getInterval());
+		System.out.println("end x: " + robot.getX() + " y: " + robot.getY());
 	}
 }
