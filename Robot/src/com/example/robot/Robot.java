@@ -34,11 +34,17 @@ public class Robot implements Observer {
 
 	public void connect() {
 		if (com.begin(FTDriver.BAUD9600)) {
+			try {
+				Thread.sleep(getInterval());
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			MainActivity.log("connected\n");
 			Thread movementThread = new Thread(mserv);
-			// Thread sensorThread = new Thread(sserv);
+			Thread sensorThread = new Thread(sserv);
 			movementThread.start();
-			// sensorThread.start();
+			sensorThread.start();
 		} else
 			MainActivity.log("could not connect\n");
 	}
@@ -46,6 +52,12 @@ public class Robot implements Observer {
 	public void disconnect() {
 		mserv.destroy();
 		sserv.destroy();
+		try {
+			Thread.sleep(getInterval());
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		com.end();
 		if (!com.isConnected()) {
 			MainActivity.log("disconnected\n");
@@ -160,7 +172,7 @@ public class Robot implements Observer {
 	}
 
 	public SensorService getSensorService() {
-		return null;
+		return sserv;
 	}
 
 	public boolean obstacleDetected() {
@@ -173,6 +185,6 @@ public class Robot implements Observer {
 
 	@Override
 	public void update(Observable observable, Object data) {
-		obstacle = true;
+		obstacle = (Boolean) data;
 	}
 }

@@ -1,5 +1,8 @@
 package com.example.robot;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ToggleButton;
@@ -25,8 +28,8 @@ public class MyOnClickListener implements OnClickListener {
 			robot.comWrite(new byte[] { '-', '\r', '\n' });
 			break;
 		case R.id.buttonW: // buttonW
-			// robot.comWrite(new byte[] { 'w', '\r', '\n' });
-			robot.robotDrive(100f);
+			//robot.comWrite(new byte[] { 'w', '\r', '\n' });
+			robot.robotDrive(500.0);
 			break;
 		case R.id.buttonPlus: // buttonPlus
 			robot.comWrite(new byte[] { '+', '\r', '\n' });
@@ -65,8 +68,16 @@ public class MyOnClickListener implements OnClickListener {
 		case R.id.buttonReadSensor: // buttonReadSensor
 			// robot.comReadWrite(data);
 			// robot.robotDrive((byte)50);
-			MainActivity.sensorLog(robot.comReadWrite(new byte[] { 'q', '\r',
-					'\n' }));
+			String raw = robot.comReadWrite(new byte[] { 'q', '\r','\n' });
+			System.out.println(raw);
+			Pattern p = Pattern.compile("0x\\w\\w");
+			Matcher m = p.matcher(raw);
+			StringBuilder sb = new StringBuilder();
+			for(int i=0; i<8; i++) {
+				m.find();
+				sb.append(Long.parseLong(m.group().replace("0x",""),16)+" ");
+			}
+			MainActivity.sensorLog(sb.toString());
 			break;
 		case R.id.buttonLedOff: // buttonLedOff
 			robot.robotGoTo(50, 0);

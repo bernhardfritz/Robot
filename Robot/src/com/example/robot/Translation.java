@@ -39,8 +39,11 @@ public class Translation implements Movement {
 			robot.comWrite(new byte[] { 'w', '\r', '\n' });
 		try {
 			while (t > 0) {
-				if (robot.obstacleDetected())
-					t = 0;
+				if (robot.obstacleDetected()) {
+					robot.comWrite(new byte[] { 's', '\r', '\n' });
+					Thread.sleep(robot.getInterval());
+					break;
+				}
 				sleep();
 			}
 		} catch (InterruptedException e) {
