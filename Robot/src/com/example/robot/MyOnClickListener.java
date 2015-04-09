@@ -28,8 +28,16 @@ public class MyOnClickListener implements OnClickListener {
 			robot.comWrite(new byte[] { '-', '\r', '\n' });
 			break;
 		case R.id.buttonW: // buttonW
-			//robot.comWrite(new byte[] { 'w', '\r', '\n' });
-			robot.robotDrive(500.0);
+			//robot.robotDrive(500.0);
+			/*robot.comWrite(new byte[] { 'w', '\r', '\n' });
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			robot.comWrite(new byte[] { 's', '\r', '\n' });*/
+			robot.robotDrive(200);
 			break;
 		case R.id.buttonPlus: // buttonPlus
 			robot.comWrite(new byte[] { '+', '\r', '\n' });
@@ -86,9 +94,20 @@ public class MyOnClickListener implements OnClickListener {
 			robot.robotGoTo(0, 0);
 			break;
 		case R.id.buttonRotate:
+			/*
 			double angle = Math.random() * 2 * Math.PI;
 			System.out.println(Math.toDegrees(angle));
 			robot.robotTurn(angle);
+			*/
+			robot.robotSetVelocity((byte) (Byte.MIN_VALUE / 8),
+					(byte) (Byte.MAX_VALUE / 8));
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			robot.comWrite(new byte[] { 's', '\r', '\n' });
 			break;
 		}
 	}

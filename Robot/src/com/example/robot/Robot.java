@@ -24,11 +24,11 @@ public class Robot implements Observer {
 		this.x = 0.0;
 		this.y = 0.0;
 		this.angle = 0.0;
-		this.v = 0.02825; // cm/ms
-		this.w = 0.001532399; // rad/ms
+		this.v = 0.02845; // cm/ms
+		this.w = 0.0016; // rad/ms
 		this.interval = 100; // ms
 		this.obstacle = false;
-		this.mserv = new MovementService();
+		this.mserv = new MovementService(this);
 		this.sserv = new SensorService(this);
 	}
 
@@ -108,15 +108,15 @@ public class Robot implements Observer {
 	}
 
 	public void robotDrive(double distance) {
-		mserv.addMovement(new Translation(this, distance));
+		mserv.addCommand(new Translation(distance,this));
 	}
 
 	public void robotTurn(double angle) {
-		mserv.addMovement(new AbsoluteRotation(this, angle));
+		mserv.addCommand(new AbsoluteRotation(angle,this));
 	}
 
 	public void robotGoTo(double x, double y) {
-		mserv.addMovement(new GoTo(this, x, y));
+		mserv.addCommand(new GoTo(this, x, y));
 
 	}
 

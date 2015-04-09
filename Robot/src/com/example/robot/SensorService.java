@@ -15,7 +15,7 @@ public class SensorService extends Observable implements Runnable {
 		this.robot = robot;
 		addObserver(robot);
 		active = true;
-		values = new double[8][4];
+		values = new double[8][3];
 		for (int i = 0; i < values.length; i++) {
 			for (int j = 0; j < values[i].length; j++) {
 				values[i][j] = 255;
@@ -32,8 +32,8 @@ public class SensorService extends Observable implements Runnable {
 		return average;
 	}
 
-	private void update() {
-		String raw = robot.comReadWrite(new byte[] { 'q', '\r', '\n' });
+	private void update() throws InterruptedException {
+		String raw = Invoker.getInstance().invoke(new Measurement(), robot);
 		Pattern p = Pattern.compile("0x\\w\\w");
 		Matcher m = p.matcher(raw);
 		for (int i = 0; i < 8; i++) {
@@ -63,8 +63,8 @@ public class SensorService extends Observable implements Runnable {
 	public void run() {
 		System.out.println("sensorservice started");
 		while (active) {
-			update();
 			try {
+				update();
 				Thread.sleep(robot.getInterval());
 			} catch (InterruptedException e) {
 				e.printStackTrace();

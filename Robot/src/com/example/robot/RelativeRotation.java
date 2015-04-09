@@ -1,16 +1,17 @@
 package com.example.robot;
 
-public class RelativeRotation implements Movement {
+public class RelativeRotation implements Command {
 
 	Robot robot;
 	double angle;
 	long t;
 
-	public RelativeRotation(Robot robot, double angle) {
+	public RelativeRotation(double angle, Robot robot) {
 		this.robot = robot;
 		this.angle = angle;
-		if(angle>Math.PI) this.angle-=2*Math.PI;
-		else if(angle<-Math.PI) this.angle+=2*Math.PI;
+		//Decide to turn CW or CCW. TODO: Fix
+		//if(angle>Math.PI) this.angle-=2*Math.PI;
+		//else if(angle<-Math.PI) this.angle+=2*Math.PI;
 		t = Math.round(Math.abs(angle) / robot.getW());
 	}
 
@@ -32,7 +33,7 @@ public class RelativeRotation implements Movement {
 	}
 
 	@Override
-	public void move() throws InterruptedException {
+	public String execute(Robot robot) throws InterruptedException {
 		System.out.println("start degree: " + Math.toDegrees(robot.getAngle()));
 		if (angle < 0)
 			robot.robotSetVelocity((byte) (Byte.MAX_VALUE / 8),
@@ -46,5 +47,6 @@ public class RelativeRotation implements Movement {
 		robot.comWrite(new byte[] { 's', '\r', '\n' });
 		Thread.sleep(robot.getInterval());
 		System.out.println("end degree: " + Math.toDegrees(robot.getAngle()));
+		return null;
 	}
 }

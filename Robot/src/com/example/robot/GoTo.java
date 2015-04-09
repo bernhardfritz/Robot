@@ -1,6 +1,6 @@
 package com.example.robot;
 
-public class GoTo implements Movement {
+public class GoTo implements Command {
 
 	double x;
 	double y;
@@ -13,7 +13,7 @@ public class GoTo implements Movement {
 	}
 
 	@Override
-	public void move() throws InterruptedException {
+	public String execute(Robot robot) throws InterruptedException {
 		double ak = x - robot.getX();
 		double gk = y - robot.getY();
 		double angle = Math.atan(gk / ak);
@@ -22,10 +22,11 @@ public class GoTo implements Movement {
 		else if (gk < 0)
 			angle += 2 * Math.PI;
 		double s = Math.sqrt(Math.pow(gk, 2) + Math.pow(ak, 2));
-		Movement m1 = new AbsoluteRotation(robot, angle);
-		Movement m2 = new Translation(robot, s);
-		m1.move();
-		m2.move();
+		Command cmd1 = new AbsoluteRotation(angle,robot);
+		Command cmd2 = new Translation(s,robot);
+		Invoker.getInstance().invoke(cmd1,robot);
+		Invoker.getInstance().invoke(cmd2,robot);
+		return null;
 	}
 
 }

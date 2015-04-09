@@ -4,16 +4,17 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class MovementService implements Runnable {
-	private Queue<Movement> queue;
+	private Queue<Command> queue;
 	private boolean active;
+	Robot robot;
 
-	public MovementService() {
-		super();
-		queue = new LinkedList<Movement>();
+	public MovementService(Robot robot) {
+		this.robot = robot;
+		queue = new LinkedList<Command>();
 	}
 
-	public void addMovement(Movement m) {
-		queue.add(m);
+	public void addCommand(Command cmd) {
+		queue.add(cmd);
 	}
 
 	public void destroy() {
@@ -25,9 +26,9 @@ public class MovementService implements Runnable {
 		active = true;
 		while (active) {
 			if (!queue.isEmpty()) {
-				Movement m = (Movement) queue.poll();
+				Command cmd = (Command) queue.poll();
 				try {
-					m.move();
+					Invoker.getInstance().invoke(cmd,robot);
 				} catch (InterruptedException e) {
 					queue.clear();
 					e.printStackTrace();

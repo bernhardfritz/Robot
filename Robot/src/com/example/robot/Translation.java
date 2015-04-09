@@ -1,11 +1,11 @@
 package com.example.robot;
 
-public class Translation implements Movement {
+public class Translation implements Command {
 	private Robot robot;
 	private double distance;
 	private long t;
 
-	public Translation(Robot robot, double distance) {
+	public Translation(double distance, Robot robot) {
 		this.robot = robot;
 		this.distance = distance;
 		t = Math.round(distance / robot.getV());
@@ -31,7 +31,7 @@ public class Translation implements Movement {
 	}
 
 	@Override
-	public void move() throws InterruptedException {
+	public String execute(Robot robot) throws InterruptedException {
 		System.out.println("start x: " + robot.getX() + " y: " + robot.getY());
 		if (distance < 0)
 			robot.comWrite(new byte[] { 'x', '\r', '\n' });
@@ -52,5 +52,6 @@ public class Translation implements Movement {
 		robot.comWrite(new byte[] { 's', '\r', '\n' });
 		Thread.sleep(robot.getInterval());
 		System.out.println("end x: " + robot.getX() + " y: " + robot.getY());
+		return null;
 	}
 }

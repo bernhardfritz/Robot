@@ -1,17 +1,18 @@
 package com.example.robot;
 
-public class AbsoluteRotation implements Movement {
+public class AbsoluteRotation implements Command {
 	private Robot robot;
 	private double absoluteAngle;
 
-	public AbsoluteRotation(Robot robot, double absoluteAngle) {
+	public AbsoluteRotation(double absoluteAngle, Robot robot) {
 		this.robot = robot;
 		this.absoluteAngle = absoluteAngle;
 	}
 
 	@Override
-	public void move() throws InterruptedException {
+	public String execute(Robot robot) throws InterruptedException {
 		double relativeAngle = absoluteAngle - robot.getAngle();
-		new RelativeRotation(robot, relativeAngle).move();
+		Invoker.getInstance().invoke(new RelativeRotation(relativeAngle,robot),robot);
+		return null;
 	}
 }
