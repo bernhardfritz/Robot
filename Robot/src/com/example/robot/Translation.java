@@ -23,6 +23,7 @@ public class Translation implements Command {
 			Thread.sleep(robot.getInterval());
 			updateXY(robot.getInterval());
 			t -= robot.getInterval();
+			if(t>=robot.getInterval()) robot.getSensorManager().update();
 		} else {
 			Thread.sleep(t);
 			updateXY(t);

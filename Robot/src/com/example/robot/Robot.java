@@ -17,7 +17,7 @@ public class Robot implements Observer {
 	private boolean obstacle;
 
 	private MovementService mserv;
-	private SensorService sserv;
+	private SensorManager sman;
 
 	public Robot(FTDriver com) {
 		this.com = com;
@@ -29,7 +29,7 @@ public class Robot implements Observer {
 		this.interval = 100; // ms
 		this.obstacle = false;
 		this.mserv = new MovementService(this);
-		this.sserv = new SensorService(this);
+		this.sman = new SensorManager(this);
 	}
 
 	public void connect() {
@@ -42,16 +42,13 @@ public class Robot implements Observer {
 			}
 			MainActivity.log("connected\n");
 			Thread movementThread = new Thread(mserv);
-			Thread sensorThread = new Thread(sserv);
 			movementThread.start();
-			sensorThread.start();
 		} else
 			MainActivity.log("could not connect\n");
 	}
 
 	public void disconnect() {
 		mserv.destroy();
-		sserv.destroy();
 		try {
 			Thread.sleep(getInterval());
 		} catch (InterruptedException e) {
@@ -171,8 +168,8 @@ public class Robot implements Observer {
 		return mserv;
 	}
 
-	public SensorService getSensorService() {
-		return sserv;
+	public SensorManager getSensorManager() {
+		return sman;
 	}
 
 	public boolean obstacleDetected() {
