@@ -6,4 +6,9 @@ public class Measurement implements Command {
 		return robot.comReadWrite(new byte[] { 'q', '\r', '\n' });
 	}
 
+	@Override
+	public boolean isAborted() {
+		return false;
+	}
+
 }

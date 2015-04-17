@@ -4,11 +4,13 @@ public class Translation implements Command {
 	private Robot robot;
 	private double distance;
 	private long t;
+	private boolean aborted;
 
 	public Translation(double distance, Robot robot) {
 		this.robot = robot;
 		this.distance = distance;
 		t = Math.round(distance / robot.getV());
+		aborted = false;
 	}
 
 	private void updateXY(long interval) {
@@ -41,8 +43,7 @@ public class Translation implements Command {
 		try {
 			while (t > 0) {
 				if (robot.obstacleDetected()) {
-					robot.comWrite(new byte[] { 's', '\r', '\n' });
-					Thread.sleep(robot.getInterval());
+					aborted = true;
 					break;
 				}
 				sleep();
@@ -54,5 +55,10 @@ public class Translation implements Command {
 		Thread.sleep(robot.getInterval());
 		System.out.println("end x: " + robot.getX() + " y: " + robot.getY());
 		return null;
+	}
+
+	@Override
+	public boolean isAborted() {
+		return aborted;
 	}
 }

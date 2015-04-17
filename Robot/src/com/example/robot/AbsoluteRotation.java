@@ -15,4 +15,9 @@ public class AbsoluteRotation implements Command {
 		Invoker.getInstance().invoke(new RelativeRotation(relativeAngle,robot),robot);
 		return null;
 	}
+
+	@Override
+	public boolean isAborted() {
+		return false;
+	}
 }

@@ -49,4 +49,9 @@ public class RelativeRotation implements Command {
 		System.out.println("end degree: " + Math.toDegrees(robot.getAngle()));
 		return null;
 	}
+
+	@Override
+	public boolean isAborted() {
+		return false;
+	}
 }
