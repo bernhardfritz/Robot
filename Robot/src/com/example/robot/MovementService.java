@@ -28,6 +28,7 @@ public class MovementService implements Runnable {
 			if (!queue.isEmpty()) {
 				Command cmd = (Command) queue.poll();
 				try {
+					Thread.sleep(robot.getInterval());
 					Invoker.getInstance().invoke(cmd,robot);
 				} catch (InterruptedException e) {
 					queue.clear();

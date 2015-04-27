@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -31,6 +32,9 @@ public class MainActivity extends Activity {
 	private Button buttonRotate;
 	private static TextView textLog;
 	private static TextView sensorLog;
+	
+	public static EditText xValue;
+	public static EditText yValue;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,8 @@ public class MainActivity extends Activity {
 		buttonReadSensor = (Button) findViewById(R.id.buttonReadSensor);
 		buttonLedOff = (Button) findViewById(R.id.buttonLedOff);
 		buttonRotate = (Button) findViewById(R.id.buttonRotate);
+		xValue = (EditText) findViewById(R.id.xValue);
+		yValue = (EditText) findViewById(R.id.yValue);
 
 		toggleButtonConnect.setOnClickListener(myOnClickListener);
 		buttonMinus.setOnClickListener(myOnClickListener);

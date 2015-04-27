@@ -28,7 +28,7 @@ public class MyOnClickListener implements OnClickListener {
 			robot.comWrite(new byte[] { '-', '\r', '\n' });
 			break;
 		case R.id.buttonW: // buttonW
-			//robot.robotDrive(500.0);
+			//robot.robotDrive(200.0);
 			/*robot.comWrite(new byte[] { 'w', '\r', '\n' });
 			try {
 				Thread.sleep(10000);
@@ -37,7 +37,16 @@ public class MyOnClickListener implements OnClickListener {
 				e.printStackTrace();
 			}
 			robot.comWrite(new byte[] { 's', '\r', '\n' });*/
-			robot.robotDrive(200);
+			robot.robotGoTo(robot.getX()+200, robot.getY()+100);
+			/*robot.comWrite(new byte[] { 'w', '\r', '\n' });
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			robot.comWrite(new byte[] { 's', '\r', '\n' });*/
+			
 			break;
 		case R.id.buttonPlus: // buttonPlus
 			robot.comWrite(new byte[] { '+', '\r', '\n' });
@@ -99,15 +108,17 @@ public class MyOnClickListener implements OnClickListener {
 			System.out.println(Math.toDegrees(angle));
 			robot.robotTurn(angle);
 			*/
-			robot.robotSetVelocity((byte) (Byte.MIN_VALUE / 8),
+			/*robot.robotSetVelocity((byte) (Byte.MIN_VALUE / 8),
 					(byte) (Byte.MAX_VALUE / 8));
 			try {
-				Thread.sleep(10000);
+				Thread.sleep(5000);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			robot.comWrite(new byte[] { 's', '\r', '\n' });
+			robot.comWrite(new byte[] { 's', '\r', '\n' });*/
+//			robot.robotTurn(Math.PI/2.0);
+			robot.robotGoTo(new Double(MainActivity.xValue.getText().toString()), new Double(MainActivity.yValue.getText().toString()));
 			break;
 		}
 	}

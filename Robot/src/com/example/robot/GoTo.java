@@ -24,6 +24,7 @@ public class GoTo implements Command {
 		else if (gk < 0)
 			angle += 2 * Math.PI;
 		double s = Math.sqrt(Math.pow(gk, 2) + Math.pow(ak, 2));
+		System.out.println("distance: "+s);
 		Command cmd1 = new AbsoluteRotation(angle,robot);
 		Command cmd2 = new Translation(s,robot);
 		Invoker.getInstance().invoke(cmd1,robot);
@@ -31,7 +32,7 @@ public class GoTo implements Command {
 		// Collision avoidance start
 		if(cmd2.isAborted()) {
 			Command ca1 = new RelativeRotation(sign*(Math.PI/2.0),robot);
-			Command ca2 = new Translation(10.0,robot);
+			Command ca2 = new Translation(30.0,robot);
 			Invoker.getInstance().invoke(ca1, robot);
 			Invoker.getInstance().invoke(ca2, robot);
 			if(ca2.isAborted()) sign *= -1.0;

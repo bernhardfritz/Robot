@@ -33,27 +33,42 @@ public class SensorManager extends Observable {
 	}
 
 	public void update() throws InterruptedException {
-		if(!active) return;
-		String raw = Invoker.getInstance().invoke(new Measurement(), robot);
-		Pattern p = Pattern.compile("0x\\w\\w");
-		Matcher m = p.matcher(raw);
-		for (int i = 0; i < 8; i++) {
-			if (m.find()) {
-				values[i][cycle] = 0.0 + Long.parseLong(
-						m.group().replace("0x", ""), 16);
+		new Thread() {
+			public void run() {
+				if(!active) return;
+				String raw = null;
+				try {
+					raw = Invoker.getInstance().invoke(new Measurement(), robot);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				Pattern p = Pattern.compile("0x\\w\\w");
+				Matcher m = p.matcher(raw);
+				for (int i = 0; i < 8; i++) {
+					if (m.find()) {
+						values[i][cycle] = 0.0 + Long.parseLong(
+								m.group().replace("0x", ""), 16);
+					}
+				}
+				if (getAverage(values[2]) < threshold // front left
+						|| getAverage(values[3]) < threshold // front right
+						|| getAverage(values[6]) < threshold) { // front middle
+					for (int i = 0; i < values.length; i++) {
+						for (int j = 0; j < values[i].length; j++) {
+							values[i][j] = 255;
+						}
+					}
+					setChanged();
+					notifyObservers(true);
+				} else {
+					setChanged();
+					notifyObservers(false);
+				}
+				cycle = (cycle + 1) % values[0].length;
+				// MainActivity.sensorLog();
 			}
-		}
-		if (getAverage(values[2]) < threshold // front left
-				|| getAverage(values[3]) < threshold // front right
-				|| getAverage(values[6]) < threshold) { // front middle
-			setChanged();
-			notifyObservers(true);
-		} else {
-			setChanged();
-			notifyObservers(false);
-		}
-		cycle = (cycle + 1) % values[0].length;
-		// MainActivity.sensorLog();
+		}.start();
 	}
 
 	public void enable() {

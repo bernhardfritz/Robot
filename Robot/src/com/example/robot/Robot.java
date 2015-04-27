@@ -24,9 +24,9 @@ public class Robot implements Observer {
 		this.x = 0.0;
 		this.y = 0.0;
 		this.angle = 0.0;
-		this.v = 0.02845; // cm/ms
-		this.w = 0.0016; // rad/ms
-		this.interval = 100; // ms
+		this.v = 0.0285; // cm/ms
+		this.w = 0.00155; // rad/ms
+		this.interval = 200; // ms
 		this.obstacle = false;
 		this.mserv = new MovementService(this);
 		this.sman = new SensorManager(this);

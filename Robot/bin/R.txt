@@ -6,7 +6,7 @@ int drawable ic_launcher 0x7f020000
 int id RelativeLayout1 0x7f090003
 int id Space1 0x7f090004
 int id TextView2 0x7f090012
-int id action_settings 0x7f090015
+int id action_settings 0x7f090017
 int id any 0x7f090000
 int id back 0x7f090001
 int id buttonA 0x7f090009
@@ -25,6 +25,8 @@ int id buttonX 0x7f09000a
 int id front 0x7f090002
 int id textView1 0x7f090014
 int id toggleButton1 0x7f090005
+int id xValue 0x7f090016
+int id yValue 0x7f090015
 int layout activity_main 0x7f030000
 int layout main 0x7f030001
 int menu main 0x7f080000
