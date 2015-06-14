@@ -72,14 +72,15 @@ detected.
 If an obstacle was detected the current Translation command will be
 aborted and our obstacle avoidance algorithm will be started:
 
+sign = 1;
 while(Goal is not reached) {
   Turn towards goal;
   Move towards goal;
   if(Moving is aborted) {
-    Turn 90° counterclockwise;
+    Turn sign*90°;
     Move 30 cm;
     if(Moving is aborted) {
-      Turn 90° clockwise in the next iteration;
+      sign *= -1;
     }
   }
 }
