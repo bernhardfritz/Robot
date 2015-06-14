@@ -1,6 +1,7 @@
-1. odometry
+1. Odometry
 
-2. generating motion commands to attain goal location
+
+2. Generating motion commands to attain goal location
 After the first two exercises we concluded that we can no longer use the default
 moving and turning robot commands ('k' and 'l') since they were very inaccurate.
 So we decided to use a combination of the following commands instead:
@@ -54,18 +55,47 @@ discovered that only three of five sensors are actually working:
 The Measurement command is exclusively called by the SensorManager which will be
 covered in the next section.
 
+-> commandpattern.png
+
 3. obstacle avoidance
+To avoid obstacles we needed a way to keep track of sensors while moving. At
+first we used a java thread to move and poll the sensors at the same time. This
+didn't work too well since there should always be some delay between two
+commands. That is why we decided to try a different approach. Since it is not
+necessary to poll the sensors all the time (e.g. turning in place), we only
+focused on polling the sensors while moving. We used a design pattern called
+observer pattern to conveniently let all observers know if an obstacle was
+detected.
 
-4. color correction and beacon detection
+-> observerpattern.png
 
-5. self-localization
+If an obstacle was detected the current Translation command will be
+aborted and our obstacle avoidance algorithm will be started:
 
-6. finite state machine (optional)
+while(Goal is not reached) {
+  Turn towards goal;
+  Move towards goal;
+  if(Moving is aborted) {
+    Turn 90° counterclockwise;
+    Move 30 cm;
+    if(Moving is aborted) {
+      Turn 90° clockwise in the next iteration;
+    }
+  }
+}
 
-7. algorithm for caging a ball with and without obstacles
+Essentially this algorithm is known as "Bug 0" algorithm -> reference to slides
 
-8. strategy for the tournament
+4. Color correction and beacon detection
 
-9. miscellaneous
-  9.1. user interface
-  9.2. work contribution breakdown
+5. Self-localization
+
+6. Finite state machine (optional)
+
+7. Algorithm for caging a ball with and without obstacles
+
+8. Strategy for the tournament
+
+9. Miscellaneous
+  9.1. User interface
+  9.2. Work contribution breakdown
