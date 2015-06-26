@@ -28,7 +28,7 @@
 \newcommand*{\@uibkc}{}
 \newcommand*{\@uibkcourse}[2]{\DeclareOption{#1}{\xdef\@uibkn{#1}\xdef\@uibkc{#2}}}
 % Courses:
-\@uibkcourse{703031}{Introduction to Autonomous and Intelligent Systems}% No longer than this name!
+\@uibkcourse{703030}{Introduction to Autonomous and Intelligent Systems}% No longer than this name!
 \@uibkcourse{703035}{Vertiefungsseminar}
 \@uibkcourse{703037}{Vertiefungsseminar}
 \@uibkcourse{703103}{Introduction to Computer Vision}

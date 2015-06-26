@@ -1,5 +1,12 @@
 1. Odometry
-
+For odometry we implemented a simplified approach as an alternative to the 
+technique discussed in lecture. In general, robot movement can be distinguished 
+between rotational and translational movement. Our idea was that if you are aware
+of the robot's turn and movement speed, you have enough information to make it 
+move wherever you want to. While turning/moving, the robot continuously updates its 
+own estimated position and orientation. Of course due to the fixed time intervals 
+there will be some small error over time but even the best odometry has troubles 
+dealing with these kinds of problems.
 
 2. Generating motion commands to attain goal location
 After the first two exercises we concluded that we can no longer use the default
@@ -22,17 +29,17 @@ Following commands have been implemented:
 2.1. Translation
 The Translation command can be considered as a command for relative robot
 movement. As soon as the Translation command is called we send a 'w' character
-to the robot. This result in sudden forward movement of the robot. Given a
-distance in cm as parameter and the robot velocity we measured when we got the
-robot we are able to calculate the time we need to wait to send a 's' character
+to the robot. This results in sudden forward movement of the robot. Given a
+distance in cm as parameter and the robot's velocity we measured when we got the
+robot, we are able to calculate the time we need to wait to send a 's' character
 to the robot to make it stop. While the robot is moving we constantly keep track
-of it's x and y coordinates in world coordinate system.
+of its x and y coordinates in world coordinate system.
 
 2.3. RelativeRotation
-As soon as the RelativeRotation command is called we send a 'i' character with
+As soon as the RelativeRotation command is called we send an 'i' character with
 specific parameters to make the robot rotate in place counterclockwise. Given an
-angle in radiant as parameter and the robot turn velocity we measured when we
-got the robot we are able to calculate the time we need to wait to send a 's'
+angle in radiant as parameter and the robot's turn velocity we measured when we
+got the robot, we are able to calculate the time we need to wait to send a 's'
 character to the robot to make it stop. While the robot is turning we constantly
 keep track of its angle in world coordinate system.
 
@@ -42,9 +49,9 @@ enable us to make the robot turn to a specific angle in world coordinate system.
 
 2.2. GoTo
 GoTo consists of two commands: AbsoluteRotation and Translation. Given two
-parameters x and y (world coordinates) and the robot coordinates we are able to
+parameters x and y (world coordinates) and the robot coordinates, we are able to
 calculate the angle we need to turn the robot so that it is facing the goal as
-well as the distance to the goal.
+well as the distance to the goal using trigonometry.
 
 2.5. Measurement
 The Measurement command is used whenever we want to read sensor values. We
@@ -52,20 +59,21 @@ discovered that only three of five sensors are actually working:
 - front left sensor
 - front middle sensor
 - front right sensor
-The Measurement command is exclusively called by the SensorManager which will be
-covered in the next section.
+The Measurement command is exclusively invoked by the SensorManager which is
+responsible for parsing received sensor data, calculating an average estimate
+of sensor values as well as notifying observers about imminent obstacles.
 
 -> commandpattern.png
 
 3. obstacle avoidance
 To avoid obstacles we needed a way to keep track of sensors while moving. At
-first we used a java thread to move and poll the sensors at the same time. This
-didn't work too well since there should always be some delay between two
+first we used a Java thread to move and poll the sensors at the same time. This
+didn't work too well since there should always be some delay between two robot
 commands. That is why we decided to try a different approach. Since it is not
 necessary to poll the sensors all the time (e.g. turning in place), we only
 focused on polling the sensors while moving. We used a design pattern called
 observer pattern to conveniently let all observers know if an obstacle was
-detected.
+detected or not.
 
 -> observerpattern.png
 
@@ -79,13 +87,13 @@ while(Goal is not reached) {
   if(Moving is aborted) {
     Turn sign*90°;
     Move 30 cm;
-    if(Moving is aborted) {
+    if(Movement is aborted) {
       sign *= -1;
     }
   }
 }
 
-Essentially this algorithm is known as "Bug 0" algorithm -> reference to slides
+Essentially this algorithm is also known as "Bug 0" algorithm -> reference to slides
 
 4. Color correction and beacon detection
 
