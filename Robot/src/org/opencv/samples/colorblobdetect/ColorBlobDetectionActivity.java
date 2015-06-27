@@ -106,15 +106,15 @@ public class ColorBlobDetectionActivity extends Activity implements OnTouchListe
         
         robot = new Robot(new FTDriver((UsbManager) getSystemService(USB_SERVICE)));
         
-//        beaconList = new ArrayList<Beacon>();
-//        initBeaconList();
-//        
-//        ballList = new ArrayList<ColorBlob>();
+        beaconList = new ArrayList<Beacon>();
+        initBeaconList();
+        
+        ballList = new ArrayList<ColorBlob>();
         initBallList();
         
         target = new Point(100.0, 100.0);
         
-//        beaconListList = new ArrayList<List<Beacon>>();
+        beaconListList = new ArrayList<List<Beacon>>();
 
         mOpenCvCameraView = (CameraBridgeViewBase) findViewById(R.id.color_blob_detection_activity_surface_view);
         mOpenCvCameraView.setCvCameraViewListener(this);
@@ -127,48 +127,8 @@ public class ColorBlobDetectionActivity extends Activity implements OnTouchListe
 	}
     
     private void initBeaconList() {
-//    	ColorBlob topBlob = new ColorBlob(Color.RED);
-//    	ColorBlob bottomBlob = new ColorBlob(Color.YELLOW);
-//    	Point position = new Point(-125.0, 125.0);
-//    	beaconList.add(new Beacon(topBlob, bottomBlob, position));
-//    	
-//    	topBlob = new ColorBlob(Color.BLUE);
-//    	bottomBlob = new ColorBlob(Color.GREEN);
-//    	position = new Point(0.0, 125.0);
-//    	beaconList.add(new Beacon(topBlob, bottomBlob, position));
-//    	
-//    	topBlob = new ColorBlob(Color.RED);
-//    	bottomBlob = new ColorBlob(Color.BLUE);
-//    	position = new Point(125.0, 125.0);
-//    	beaconList.add(new Beacon(topBlob, bottomBlob, position));
-//    	
-//    	topBlob = new ColorBlob(Color.BLUE);
-//    	bottomBlob = new ColorBlob(Color.YELLOW);
-//    	position = new Point(125.0, 0.0);
-//    	beaconList.add(new Beacon(topBlob, bottomBlob, position));
-//    	
-//    	topBlob = new ColorBlob(Color.YELLOW);
-//    	bottomBlob = new ColorBlob(Color.RED);
-//    	position = new Point(125.0, -125.0);
-//    	beaconList.add(new Beacon(topBlob, bottomBlob, position));
-//    	
-//    	topBlob = new ColorBlob(Color.GREEN);
-//    	bottomBlob = new ColorBlob(Color.BLUE);
-//    	position = new Point(0.0, -125.0);
-//    	beaconList.add(new Beacon(topBlob, bottomBlob, position));
-//    	
-//    	topBlob = new ColorBlob(Color.BLUE);
-//    	bottomBlob = new ColorBlob(Color.RED);
-//    	position = new Point(-125.0, -125.0);
-//    	beaconList.add(new Beacon(topBlob, bottomBlob, position));
-//    	
-//    	topBlob = new ColorBlob(Color.YELLOW);
-//    	bottomBlob = new ColorBlob(Color.GREEN);
-//    	position = new Point(-125.0, 0.0);
-//    	beaconList.add(new Beacon(topBlob, bottomBlob, position));
-    	
-    	ColorBlob topBlob = new ColorBlob(Color.BLUE);
-    	ColorBlob bottomBlob = new ColorBlob(Color.RED);
+    	ColorBlob topBlob = new ColorBlob(Color.RED);
+    	ColorBlob bottomBlob = new ColorBlob(Color.ORANGE);
     	Point position = new Point(-125.0, 125.0);
     	beaconList.add(new Beacon(topBlob, bottomBlob, position));
     	
@@ -177,14 +137,39 @@ public class ColorBlobDetectionActivity extends Activity implements OnTouchListe
     	position = new Point(0.0, 125.0);
     	beaconList.add(new Beacon(topBlob, bottomBlob, position));
     	
-//    	topBlob = new ColorBlob(Color.MAGENTA);
-//    	bottomBlob = new ColorBlob(Color.ORANGE);
-//    	position = new Point(125.0, 125.0);
-//    	beaconList.add(new Beacon(topBlob, bottomBlob, position));
+    	topBlob = new ColorBlob(Color.RED);
+    	bottomBlob = new ColorBlob(Color.BLUE);
+    	position = new Point(125.0, 125.0);
+    	beaconList.add(new Beacon(topBlob, bottomBlob, position));
+    	
+    	topBlob = new ColorBlob(Color.BLUE);
+    	bottomBlob = new ColorBlob(Color.ORANGE);
+    	position = new Point(125.0, 0.0);
+    	beaconList.add(new Beacon(topBlob, bottomBlob, position));
+    	
+    	topBlob = new ColorBlob(Color.ORANGE);
+    	bottomBlob = new ColorBlob(Color.RED);
+    	position = new Point(125.0, -125.0);
+    	beaconList.add(new Beacon(topBlob, bottomBlob, position));
+    	
+    	topBlob = new ColorBlob(Color.GREEN);
+    	bottomBlob = new ColorBlob(Color.BLUE);
+    	position = new Point(0.0, -125.0);
+    	beaconList.add(new Beacon(topBlob, bottomBlob, position));
+    	
+    	topBlob = new ColorBlob(Color.BLUE);
+    	bottomBlob = new ColorBlob(Color.RED);
+    	position = new Point(-125.0, -125.0);
+    	beaconList.add(new Beacon(topBlob, bottomBlob, position));
+    	
+    	topBlob = new ColorBlob(Color.ORANGE);
+    	bottomBlob = new ColorBlob(Color.GREEN);
+    	position = new Point(-125.0, 0.0);
+    	beaconList.add(new Beacon(topBlob, bottomBlob, position));
     }
     
     private void initBallList() {
-//    	ballList.add(new ColorBlob(Color.ORANGE));
+    	ballList.add(new ColorBlob(Color.ORANGE));
     }
 
 	@Override
@@ -200,24 +185,17 @@ public class ColorBlobDetectionActivity extends Activity implements OnTouchListe
 			mDetector.calcHomographyMatrix(mRgba);
 			return true;
 		case R.id.taskAction:
-//			if (!mDetector.isHomographyDone()) {
-//				System.out.println("Homography matrix not calculated");
-//			}
-//			else {
-				doBeaconAction();
-//			}
+			if (!mDetector.isHomographyDone()) {
+				System.out.println("Homography matrix not calculated");
+			}
+			else {
+				taskAction();
+			}
 			
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
-	}
-	
-	private void test() {
-		Beacon beacon1 = new Beacon(new ColorBlob(Color.GREEN), new ColorBlob(Color.RED), new Point(0.0, 100.0));
-		Beacon beacon2 = new Beacon(new ColorBlob(Color.RED), new ColorBlob(Color.GREEN), new Point(100.0, 100.0));
-		System.out.println("Robot Position: "  + mDetector.getRobotPosition(beacon1, beacon2));
-//		System.out.println("Robot Angle: " + mDetector.getRobotAngle(beacon1, beacon2));
 	}
 	
 	private void taskAction() {
@@ -261,25 +239,17 @@ public class ColorBlobDetectionActivity extends Activity implements OnTouchListe
 	}
 	
 	private void doBeaconAction() {
-//		beaconListList.clear();
-//		count = 0;
+		beaconListList.clear();
+		count = 0;
 		List<Point> destPoints = new ArrayList<Point>();
-		destPoints.add(new Point(62.5, 62.5));
-		destPoints.add(new Point(62.5, 187.5));
-		destPoints.add(new Point(187.5, 187.5));
-		destPoints.add(new Point(187.5, 62.5));
-		
-//		Scalar ballColor = new Scalar(15, 223, 255);
-		Scalar ballColor = new Scalar(247, 136, 245);
 		
 		for (int i = 0;; i++) {
 			
-			catchBall(ballColor);
+			catchBall(ballList.get(0).getColor().hsvValue());
 			
 			try {
 				Invoker.getInstance().invoke(new GoTo(robot, destPoints.get(i).x, destPoints.get(i).y), robot);
 			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			
@@ -367,11 +337,6 @@ public class ColorBlobDetectionActivity extends Activity implements OnTouchListe
 		// Beacons aus mDetector.colorBlobs entfernen
 		mDetector.detectBeacons();
 		List<ColorBlob> balls = mDetector.getColorBlobs();
-		
-		// TODO: Workspace Exploration
-//		if (balls.isEmpty()) {
-//			exploreWorkspace();
-//		}
 		
 		System.out.println("Ball count: " + balls.size());
 		for (ColorBlob ball : balls) {
