@@ -3,8 +3,6 @@ package com.example.robot;
 import java.util.Observable;
 import java.util.Observer;
 
-import android.util.Log;
-
 import jp.ksksue.driver.serial.FTDriver;
 
 public class Robot implements Observer {
@@ -17,16 +15,9 @@ public class Robot implements Observer {
 	private double w;
 	private long interval;
 	private boolean obstacle;
-	
-	/* borders for blob */
-	private double left;
-	private double right;
-	private double up;
-	private double down;
-	
+
 	private MovementService mserv;
 	private SensorManager sman;
-	private CameraService cserv;
 
 	public Robot(FTDriver com) {
 		this.com = com;
@@ -37,25 +28,11 @@ public class Robot implements Observer {
 		this.w = 0.00155; // rad/ms
 		this.interval = 200; // ms
 		this.obstacle = false;
-		
-		this.left=117.33;
-		this.right=234.66;
-		this.up=172.8;
-		this.down=230.4;
-		
 		this.mserv = new MovementService(this);
 		this.sman = new SensorManager(this);
-		this.cserv = CameraService.getInstance();
 	}
 
 	public void connect() {
-		Log.i("Connecter","is connecting");
-		
-		/* create a camera thread and start it */
-		cserv.setRobot(this);
-		Thread cameraThread = new Thread(cserv);
-		cameraThread.start();
-		
 		if (com.begin(FTDriver.BAUD9600)) {
 			try {
 				Thread.sleep(getInterval());
@@ -63,19 +40,15 @@ public class Robot implements Observer {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			MainActivity.log("connected\n");
-		
-			/* create a movement thread and start it */
+			System.out.println("connected\n");
 			Thread movementThread = new Thread(mserv);
 			movementThread.start();
-			
 		} else
-			MainActivity.log("could not connect\n");
+			System.out.println("could not connect\n");
 	}
 
 	public void disconnect() {
 		mserv.destroy();
-		cserv.destroy();
 		try {
 			Thread.sleep(getInterval());
 		} catch (InterruptedException e) {
@@ -84,7 +57,7 @@ public class Robot implements Observer {
 		}
 		com.end();
 		if (!com.isConnected()) {
-			MainActivity.log("disconnected\n");
+			System.out.println("disconnected\n");
 		}
 	}
 
@@ -92,7 +65,7 @@ public class Robot implements Observer {
 		if (com.isConnected()) {
 			com.write(data);
 		} else {
-			MainActivity.log("not connected\n");
+			System.out.println("not connected\n");
 		}
 	}
 
@@ -128,7 +101,7 @@ public class Robot implements Observer {
 	}
 
 	public void robotSetBar(byte value) {
-		comReadWrite(new byte[] { 'o', value, '\r', '\n' });
+		mserv.addCommand(new Bar(value));
 	}
 
 	public void robotDrive(double distance) {
@@ -138,6 +111,10 @@ public class Robot implements Observer {
 	public void robotTurn(double angle) {
 		mserv.addCommand(new AbsoluteRotation(angle,this));
 	}
+	
+	public void robotTurnRelative(double angle) {
+		mserv.addCommand(new RelativeRotation(angle, this));
+	}
 
 	public void robotGoTo(double x, double y) {
 		mserv.addCommand(new GoTo(this, x, y));
@@ -145,11 +122,6 @@ public class Robot implements Observer {
 
 	public void robotHold() {
 		comWrite(new byte[] { 's', '\r', '\n' });
-	}
-	
-	public void robotCatchBall(Double goalX, Double goalY) {
-		Log.i("Robot", "Catch Ball at (" + goalX + ", " + goalY + ")");
-		mserv.addCommand(new CatchBall(this, x, y));
 	}
 
 	public double getV() {
@@ -162,33 +134,6 @@ public class Robot implements Observer {
 
 	public double getX() {
 		return this.x;
-	}
-	
-	public void getBallPosition() {
-		cserv.findBall();
-		try {
-			Thread.sleep(1000);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Log.i("Robot","Ball Position: (" + cserv.ballPosition.x + ", " + cserv.ballPosition.y + ")");
-	}
-	
-	public double getLeft() {
-		return this.left;
-	}
-	
-	public double getRight() {
-		return this.right;
-	}
-	
-	public double getUp() {
-		return this.up;
-	}
-	
-	public double getDown() {
-		return this.down;
 	}
 
 	public void setX(double x) {
@@ -231,18 +176,15 @@ public class Robot implements Observer {
 	}
 
 	public boolean obstacleDetected() {
-//		if (obstacle) {
-//			obstacle = false;
-//			return true;
-//		} else
-//			return false;
-		/* turned off */
-		return false;
+		if (obstacle) {
+			obstacle = false;
+			return true;
+		} else
+			return false;
 	}
 
 	@Override
 	public void update(Observable observable, Object data) {
 		obstacle = (Boolean) data;
 	}
-
 }
