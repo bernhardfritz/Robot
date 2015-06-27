@@ -105,7 +105,7 @@ of sensor values as well as notifying observers about imminent obstacles.
 	\label{img:commandpattern}
 \end{figure}
 
-\subsection{Obstacle avoidance}
+\subsection{Obstacle avoidance} \label{obstacle_avoidance}
 To avoid obstacles we needed a way to keep track of sensors while moving. At
 first we used a Java thread to move and poll the sensors at the same time. This
 didn't work too well since there should always be some delay between two robot
@@ -143,14 +143,78 @@ while(Goal is not reached) {
 \noindent Essentially this algorithm is also known as "Bug 0" algorithm as seen in \citep[7]{bug-algorithms}
 
 \subsection{Color correction and beacon detection}
+For the color correction and in addition the beacon detection we used the 
+\textit{Color Blob Detection} example included in the OpenCV library \\(\url{http://opencv.org/downloads.html}).
+In the example code there is a class \textit{ColorBlobDetector} which includes
+the contour calculation for a specifig HSV color. We used that class for finding
+the contours of our coloured balls and beacons. \\
+The beacon contours we defined as two rectangles, one above the other, having
+a greater height than width. \\
+After we filtered that contours out of our image the remaining contours must be
+the balls the robot can see from it's position. \\
+The beacon detection had cost us a lot of time because we had many problems
+with the different colours in different lighting positions. This was our main problem
+implementing a correctly working beacon detection.
 
 \subsection{Self-localization}
+The self-localization is done like we heard in the lecture. We calculate a homography
+matrix from a given chessboard picture. With that matrix and the respective OpenCV
+functions we can easily calculate the distance from the robot to a beacon for example. \\
+The self-localisation (only position without the angle) is done with the following algorithm:
 
-\subsection{Finite state machine (optional)}
+\begin{lstlisting}[mathescape]
+r1 = distance to beacon1;
+r2 = distance to beacon2:
+c1 = circle with radiance r1;
+c2 = circle with radience r2;
+p[2] = intersection points of c1 and c2;
+pos = point out of p[2] which is inside the workspace;
+\end{lstlisting}
+
+\noindent This algorithm works since we know the boundaries of the robots workspace. \\
+The robots angle calculation was quite more difficult. In the end we did it similar
+to the algorithm we have learned in the lecture. We calculated the linear equation
+for the line between the two beacons. With that equation we get the intersection point
+of that line with the robots line of sight. Including one of the two beacons and the distance
+between the beacon and the robot we have a triangle. From that triangle we know
+all three sides so we can calculate the wanted angle with the law of cosine. \\
+This calculation in combination with mostly inaccurate beacon detection caused also
+a lot of problems. In the end we fixed that problems and most of the time the
+self-localization worked quite fine.
 
 \subsection{Algorithm for caging a ball with and without obstacles}
+Our algorithm for caging a ball without obstacles looked like the following:
+
+\begin{lstlisting}[mathescape]
+while (no more balls at the workspace) {
+  Search for 2 or more beacons;
+  while (not 2 or more beacons found)  {
+    Explore the workspace;
+    Search for 2 or more beacons;
+  }
+  Do self localization;
+  Search for a ball;
+  while (no ball found) {
+    Explore the workspace;
+    Search for a ball;
+  }
+  Drive to the ball with distance - 5cm;
+  Catch the ball;
+  Go to the pre-defined target position.
+  Release the ball;
+}
+\end{lstlisting}
+
+\noindent For the algorithm with obstacles we simply added the obstacle avoidance described
+in section~\ref{obstacle_avoidance}.
 
 \subsection{Strategy for the tournament}
+Out strategy for the tournament was to catch all the balls in a short time without
+hitting the other robot. Since the different lighting conditions we had problems with
+the beacon detection and the self-localization. We did some nice tries with our robot but
+in the end it mostly detected the wall as an obstacle and did erratic movements. \\
+The tournament still made a lot of fun and the big challenge with all robots driving
+at the same time in that small workspace was the highlight.
 
 \subsection{Miscellaneous}
   \subsubsection{User interface}
